@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import model.Model;
 import view.GameListView;
 import view.LoginView;
+import java.lang.Character;
 
 /**
  *
@@ -85,6 +86,13 @@ public class Controller implements Runnable{
             }
         });
     
+        gamelistview.getRefreshlist_btn().addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                
+                model.gameListMessage();
+                
+            }
+        });
     
     }
     
@@ -190,6 +198,8 @@ public class Controller implements Runnable{
    
    public void setGameList(List<String> games){
    
+       gamelistview.getGameLoadList_cbox().removeAllItems();
+       gamelistview.getGameJoinList_cbox().removeAllItems();
        for(String s : games){
             if(s.contains("loadgame"))
                 gamelistview.getGameLoadList_cbox().addItem(s);
@@ -203,13 +213,13 @@ public class Controller implements Runnable{
    
    public void joinGame(String s){
    
-       Integer gameid = Integer.valueOf(s.charAt(0));
+       Integer gameid = Character.getNumericValue(s.charAt(0));
        model.joinGameMessage(gameid);
    
    }
    public void loadGame(String s){
    
-       Integer gameid = Integer.valueOf(s.charAt(0));
+       Integer gameid = Character.getNumericValue(s.charAt(0));
        model.loadGameMessage(gameid);
    
    }

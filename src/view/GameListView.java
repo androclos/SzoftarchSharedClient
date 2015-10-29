@@ -41,6 +41,10 @@ public class GameListView extends javax.swing.JPanel {
         return startnewgame_btn;
     }
 
+    public JButton getRefreshlist_btn() {
+        return refreshlist_btn;
+    }
+
     
     
     /**
@@ -57,6 +61,7 @@ public class GameListView extends javax.swing.JPanel {
         startnewgame_btn = new javax.swing.JButton();
         loadgame_btn = new javax.swing.JButton();
         joingame_btn = new javax.swing.JButton();
+        refreshlist_btn = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 51, 0), 4));
         setPreferredSize(new java.awt.Dimension(786, 423));
@@ -74,26 +79,31 @@ public class GameListView extends javax.swing.JPanel {
         joingame_btn.setText("Join Game");
         joingame_btn.setActionCommand("");
 
+        refreshlist_btn.setText("Refresh Game List");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(88, 88, 88)
-                .addComponent(gamejoinlist_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
-                .addComponent(gameloadlist_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(89, 89, 89))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(319, 319, 319)
-                .addComponent(startnewgame_btn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(116, 116, 116)
                 .addComponent(joingame_btn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(loadgame_btn)
                 .addGap(194, 194, 194))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(319, 319, 319)
+                        .addComponent(startnewgame_btn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refreshlist_btn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(gamejoinlist_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                        .addComponent(gameloadlist_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(89, 89, 89))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,7 +120,9 @@ public class GameListView extends javax.swing.JPanel {
                         .addGap(175, 175, 175)
                         .addComponent(joingame_btn)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
-                .addComponent(startnewgame_btn)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(startnewgame_btn)
+                    .addComponent(refreshlist_btn))
                 .addGap(70, 70, 70))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -121,6 +133,7 @@ public class GameListView extends javax.swing.JPanel {
     private javax.swing.JComboBox gameloadlist_cbox;
     private javax.swing.JButton joingame_btn;
     private javax.swing.JButton loadgame_btn;
+    private javax.swing.JButton refreshlist_btn;
     private javax.swing.JButton startnewgame_btn;
     // End of variables declaration//GEN-END:variables
 }

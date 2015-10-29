@@ -29,23 +29,28 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-              <Component id="gamejoinlist_cbox" min="-2" pref="125" max="-2" attributes="0"/>
-              <EmptySpace pref="173" max="32767" attributes="0"/>
-              <Component id="gameloadlist_cbox" min="-2" pref="303" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="319" max="-2" attributes="0"/>
-              <Component id="startnewgame_btn" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
               <Component id="joingame_btn" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="loadgame_btn" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="194" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="319" max="-2" attributes="0"/>
+                      <Component id="startnewgame_btn" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="refreshlist_btn" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
+                      <Component id="gamejoinlist_cbox" min="-2" pref="125" max="-2" attributes="0"/>
+                      <EmptySpace pref="173" max="32767" attributes="0"/>
+                      <Component id="gameloadlist_cbox" min="-2" pref="303" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -68,7 +73,10 @@
                   </Group>
               </Group>
               <EmptySpace pref="108" max="32767" attributes="0"/>
-              <Component id="startnewgame_btn" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="startnewgame_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="refreshlist_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -115,6 +123,11 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Join Game"/>
         <Property name="actionCommand" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="refreshlist_btn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Refresh Game List"/>
       </Properties>
     </Component>
   </SubComponents>
