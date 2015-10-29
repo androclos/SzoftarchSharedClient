@@ -87,7 +87,6 @@ public class ServerListener implements Runnable{
             
                 if(newmsg != null){
                     que.add(newmsg);
-                    System.out.println(newmsg.getMessage() + "serelrlistener" );
                 }
 
             }

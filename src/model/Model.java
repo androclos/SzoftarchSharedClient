@@ -38,7 +38,7 @@ public class Model {
     
     
     
-    public void login(String username, String password){
+    public void loginMessage(String username, String password){
     
         try {
             
@@ -50,8 +50,49 @@ public class Model {
         } catch (IOException ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-    
+
     }
     
+    public void gameListMessage(){
+    
+        try {
+            String message = clientid + ":gamelist";
+            Message m = new Message(message);
+            
+            listener.getOuts().writeObject(m);
+        } catch (IOException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ 
+    }
+    
+    public void joinGameMessage(Integer gameid){
+        
+        try {
+            Message m = new Message(clientid + ":joingame:" +gameid);
+            listener.getOuts().writeObject(m);
+        } catch (IOException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }
+    public void loadGameMessage(Integer gameid){
+    
+        try {
+            Message m = new Message(clientid + ":loadgame:" +gameid);
+            listener.getOuts().writeObject(m);
+        } catch (IOException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    public void startNewGameMessage(){
+        
+        try {
+            Message m = new Message(clientid + ":newgame");
+            listener.getOuts().writeObject(m);
+        } catch (IOException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
