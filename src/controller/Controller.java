@@ -10,9 +10,12 @@ import chess.ChessBoard;
 import client.Message;
 import java.awt.Button;
 import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -23,6 +26,8 @@ import model.Model;
 import view.GameListView;
 import view.LoginView;
 import java.lang.Character;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -77,7 +82,8 @@ public class Controller implements Runnable{
         this.frames = new ChessFrame();
         this.boardpanel = new BoardPanel(board);
         frames.getContentPane().add(boardpanel);
-        frames.getContentPane().add(new JLabel("yasd"));
+        JLabel website = new JLabel();
+        frames.getContentPane().add(website);
         frames.getContentPane().add(new JButton("yasd"));
         frames.setSize(450,600);
         frames.setResizable(false);
@@ -98,7 +104,6 @@ public class Controller implements Runnable{
                 }
                 else{  //masodik kattintas
                    destiantion = c;  
-                   //boardpanel.startAnimation(source,destiantion);
                    model.moveMessage(source, destiantion);
                    boardpanel.selectedCell = destiantion = source = null;
 
@@ -122,6 +127,20 @@ public class Controller implements Runnable{
         });
         
         
+        website.setText("<html> Website : <a href=\"\">"+"Link"+"</a></html>");
+        website.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        website.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                    try {
+                            Desktop.getDesktop().browse(new URI("https://pifko-pc:8181/ServletTest/Statistics"));
+                    } catch (IOException ex) {
+                            //It looks like there's a problem
+                    } catch (URISyntaxException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
 
         
     }
