@@ -38,7 +38,6 @@ import view.ChessFrame;
 public class Controller implements Runnable{
     
     LoginView view;
-    ChessFrame frame;
     ChessFrame frames;
     BoardPanel boardpanel;
     ChessBoard board;
@@ -46,6 +45,7 @@ public class Controller implements Runnable{
     Model model;
     public  ArrayBlockingQueue<Message> messageque;
     Integer clientid = -1;
+    String color = null;
     
     Cell source;
     Cell destiantion;
@@ -54,20 +54,21 @@ public class Controller implements Runnable{
 
         messageque = new ArrayBlockingQueue<Message>(100);
         view = new LoginView();
-        //model = new Model(messageque);
+        model = new Model(messageque);
         setLoginViewListeners();
         
         
         
-        setBoardView(processBoard(msgprocess("board:r00:n01:b02:q03:k04:b05:n06:r07:p10:p11:p12:p13:p14:p15:p16:p17:P60:P61:P62:P63:P64:P65:P66:P67:R70:N71:B72:Q73:K74:B75:N76:R77")));
+        //setBoardView(processBoard(msgprocess("board:r00:n01:b02:q03:k04:b05:n06:r07:p10:p11:p12:p13:p14:p15:p16:p17:P60:P61:P62:P63:P64:P65:P66:P67:R70:N71:B72:Q73:K74:B75:N76:R77")));
         
     }
     
     public void setBoardView(List<ChessPiece> piecelist){
     
+        this.view.setVisible(false);
+        
         if(piecelist != null){
            this.board = new ChessBoard(piecelist);
-            System.out.println(board.toString());
         }
         else
            this.board = new ChessBoard();
@@ -128,7 +129,7 @@ public class Controller implements Runnable{
     
     public void setGameListListeners(){
     
-        gamelistview.getGameJoinList_cbox().addActionListener(new java.awt.event.ActionListener() {
+        gamelistview.getJoingame_btn().addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 
                 joinGame(gamelistview.getGameJoinList_cbox().getSelectedItem().toString());
@@ -139,7 +140,7 @@ public class Controller implements Runnable{
         gamelistview.getLoadgame_btn().addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 
-                joinGame(gamelistview.getGameLoadList_cbox().getSelectedItem().toString());
+                loadGame(gamelistview.getGameLoadList_cbox().getSelectedItem().toString());
                 
             }
         });
@@ -207,6 +208,8 @@ public class Controller implements Runnable{
     
     public void msghandler(List<String> message, Message original){
     
+        System.out.println(original.getMessage());
+        
         String messageoperation = message.get(0);
         
         switch(messageoperation){
@@ -231,8 +234,16 @@ public class Controller implements Runnable{
                 makeMove(new Cell(Integer.valueOf(message.get(1)), Integer.valueOf(message.get(2))), new Cell(Integer.valueOf(message.get(3)), Integer.valueOf(message.get(4))));
                 break;
             }
-            case "board":{
+            case "boardstate":{
                 setBoardView(processBoard(message));
+                break;
+            }
+            case "color":{
+                color = message.get(1);
+                break;
+            }
+            case "gamestart":{
+                setBoardView(null);
                 break;
             }
             default: {
@@ -247,7 +258,7 @@ public class Controller implements Runnable{
     
     public void makeMove(Cell src, Cell dest){
         
-        boardpanel.startAnimation(src, src);
+        boardpanel.startAnimation(src, dest);
 
     }
     
@@ -311,13 +322,12 @@ public class Controller implements Runnable{
    
     public List<ChessPiece> processBoard(List<String> piecelist){
     
-        piecelist.remove("board");
+        piecelist.remove("boardstate");
         List<ChessPiece> list = new ArrayList<ChessPiece>();
         
         for(String s : piecelist){
         
             list.add( new ChessPiece(s.substring(0, 1), Integer.valueOf(s.substring(1, 2)), Integer.valueOf(s.substring(2))));
-            System.out.println(s.substring(2));
         
         }
         
