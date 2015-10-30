@@ -105,7 +105,18 @@ public class Model {
         } catch (IOException ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+    }
     
     
+    public void leaveGameMessage(){
+    
+        try {
+            Message m = new Message(clientid + ":leavegame");
+            listener.getOuts().writeObject(m);
+        } catch (IOException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
