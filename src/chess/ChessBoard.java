@@ -9,6 +9,7 @@ package chess;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import model.ChessPiece;
 
 /**
  *
@@ -24,11 +25,11 @@ public class ChessBoard {
         reset();
     }
        
-    /*public ChessBoard(List<ChessPiece> list) {
+    public ChessBoard(List<ChessPiece> list) {
         
         buildBoard(list);
         
-    }*/
+    }
     
     public Piece removePiece(Cell c)
     {
@@ -153,7 +154,7 @@ public class ChessBoard {
     
     }
     
-    /*public void buildBoard(List<ChessPiece> piecelist){
+    public void buildBoard(List<ChessPiece> piecelist){
         
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -183,5 +184,5 @@ public class ChessBoard {
 
         }
     
-    }*/
+    }
 }

@@ -26,6 +26,7 @@ import java.lang.Character;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import model.ChessPiece;
 import view.BoardPanel;
 import view.ChessFrame;
 import view.ChessFrame;
@@ -55,14 +56,23 @@ public class Controller implements Runnable{
         view = new LoginView();
         //model = new Model(messageque);
         setLoginViewListeners();
-        setBoardView();
+        
+        
+        
+        setBoardView(processBoard(msgprocess("board:r00:n01:b02:q03:k04:b05:n06:r07:p10:p11:p12:p13:p14:p15:p16:p17:P60:P61:P62:P63:P64:P65:P66:P67:R70:N71:B72:Q73:K74:B75:N76:R77")));
         
     }
     
-    public void setBoardView(){
+    public void setBoardView(List<ChessPiece> piecelist){
     
+        if(piecelist != null){
+           this.board = new ChessBoard(piecelist);
+            System.out.println(board.toString());
+        }
+        else
+           this.board = new ChessBoard();
+        
         this.frames = new ChessFrame();
-        this.board = new ChessBoard();
         this.boardpanel = new BoardPanel(board);
         frames.getContentPane().add(boardpanel);
         frames.getContentPane().add(new JLabel("yasd"));
@@ -70,7 +80,7 @@ public class Controller implements Runnable{
         frames.setSize(450,600);
         frames.setResizable(false);
         frames.setVisible(true);
-        boardpanel.revalidate();
+        boardpanel.display();
         
         boardpanel.addMouseListener(new MouseAdapter()
         {
@@ -215,11 +225,15 @@ public class Controller implements Runnable{
             }
             case "gamelist":{
                 setGameList(original.getGamelist());
-               break;
+                break;
             }
             case "move":{
                 makeMove(new Cell(Integer.valueOf(message.get(1)), Integer.valueOf(message.get(2))), new Cell(Integer.valueOf(message.get(3)), Integer.valueOf(message.get(4))));
-               break;
+                break;
+            }
+            case "board":{
+                setBoardView(processBoard(message));
+                break;
             }
             default: {
                break;
@@ -295,4 +309,20 @@ public class Controller implements Runnable{
    
     }
    
+    public List<ChessPiece> processBoard(List<String> piecelist){
+    
+        piecelist.remove("board");
+        List<ChessPiece> list = new ArrayList<ChessPiece>();
+        
+        for(String s : piecelist){
+        
+            list.add( new ChessPiece(s.substring(0, 1), Integer.valueOf(s.substring(1, 2)), Integer.valueOf(s.substring(2))));
+            System.out.println(s.substring(2));
+        
+        }
+        
+        return list;
+    
+    }
+    
 }
