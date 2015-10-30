@@ -5,7 +5,13 @@
  */
 package controller;
 
+import chess.Cell;
+import chess.ChessBoard;
 import client.Message;
+import java.awt.Component;
+import java.awt.Frame;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -16,6 +22,9 @@ import model.Model;
 import view.GameListView;
 import view.LoginView;
 import java.lang.Character;
+import view.BoardPanel;
+import view.BoardView;
+import view.ChessFrame;
 
 /**
  *
@@ -24,18 +33,64 @@ import java.lang.Character;
 public class Controller implements Runnable{
     
     LoginView view;
+    ChessFrame frame;
+    BoardPanel boardpanel;
+    ChessBoard board;
     GameListView gamelistview;
     Model model;
     public  ArrayBlockingQueue<Message> messageque;
     Integer clientid = -1;
     
+    Cell source;
+    Cell destiantion;
+    
     public Controller() {
-        
 
         messageque = new ArrayBlockingQueue<Message>(100);
         view = new LoginView();
-        model = new Model(messageque);
+        //model = new Model(messageque);
         setLoginViewListeners();
+        setBoardView();
+        
+    }
+    
+    public void setBoardView(){
+    
+        this.frame = new ChessFrame();
+        this.board = new ChessBoard();
+        this.boardpanel = new BoardPanel(board);
+        frame.add((Component)boardpanel);
+        frame.setSize(450,600);
+        frame.setResizable(false);
+        frame.setVisible(true);
+        boardpanel.display();
+        
+        boardpanel.addMouseListener(new MouseAdapter()
+        {
+          public void mouseClicked(MouseEvent e){
+          
+            if(e.getY() < 420 && e.getY() > 20 && e.getX() < 420 && e.getX() > 20){
+                
+                Cell c = new Cell((e.getY()-20) / 50, (e.getX()-20) / 50);
+                if(source == null){
+                    source = c;
+                    boardpanel.selectedCell = c;
+                    boardpanel.display();
+                }
+                else{
+                   destiantion = c;  
+                   boardpanel.startAnimation(source,destiantion);
+                   boardpanel.selectedCell = destiantion = source = null;
+
+                }
+                
+            }
+          
+          } 
+        });
+        
+        
+
         
     }
     
