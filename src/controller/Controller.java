@@ -8,6 +8,7 @@ package controller;
 import chess.Cell;
 import chess.ChessBoard;
 import client.Message;
+import java.awt.Button;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
@@ -22,8 +23,11 @@ import model.Model;
 import view.GameListView;
 import view.LoginView;
 import java.lang.Character;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import view.BoardPanel;
-import view.BoardView;
+import view.ChessFrame;
 import view.ChessFrame;
 
 /**
@@ -34,6 +38,7 @@ public class Controller implements Runnable{
     
     LoginView view;
     ChessFrame frame;
+    ChessFrame frames;
     BoardPanel boardpanel;
     ChessBoard board;
     GameListView gamelistview;
@@ -56,30 +61,33 @@ public class Controller implements Runnable{
     
     public void setBoardView(){
     
-        this.frame = new ChessFrame();
+        this.frames = new ChessFrame();
         this.board = new ChessBoard();
         this.boardpanel = new BoardPanel(board);
-        frame.add((Component)boardpanel);
-        frame.setSize(450,600);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        boardpanel.display();
+        frames.getContentPane().add(boardpanel);
+        frames.getContentPane().add(new JLabel("yasd"));
+        frames.getContentPane().add(new JButton("yasd"));
+        frames.setSize(450,600);
+        frames.setResizable(false);
+        frames.setVisible(true);
+        boardpanel.revalidate();
         
         boardpanel.addMouseListener(new MouseAdapter()
         {
-          public void mouseClicked(MouseEvent e){
+          public void mouseClicked(MouseEvent e){ //kattintasra kuldi a move uzenetet
           
             if(e.getY() < 420 && e.getY() > 20 && e.getX() < 420 && e.getX() > 20){
                 
                 Cell c = new Cell((e.getY()-20) / 50, (e.getX()-20) / 50);
-                if(source == null){
+                if(source == null){ //elso jattintas
                     source = c;
                     boardpanel.selectedCell = c;
                     boardpanel.display();
                 }
-                else{
+                else{  //masodik kattintas
                    destiantion = c;  
-                   boardpanel.startAnimation(source,destiantion);
+                   //boardpanel.startAnimation(source,destiantion);
+                   model.moveMessage(source, destiantion);
                    boardpanel.selectedCell = destiantion = source = null;
 
                 }
@@ -96,13 +104,6 @@ public class Controller implements Runnable{
     
     public void setLoginViewListeners(){
     
-        /*loginview.getLoginButton().addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
-                LoginAttempt();
-                
-            }
-        });*/
         
         view.getLogin_bt().addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,6 +217,10 @@ public class Controller implements Runnable{
                 setGameList(original.getGamelist());
                break;
             }
+            case "move":{
+                makeMove(new Cell(Integer.valueOf(message.get(1)), Integer.valueOf(message.get(2))), new Cell(Integer.valueOf(message.get(3)), Integer.valueOf(message.get(4))));
+               break;
+            }
             default: {
                break;
             }
@@ -226,14 +231,20 @@ public class Controller implements Runnable{
     
     }
     
-   public void setClientId(Integer clientid){
+    public void makeMove(Cell src, Cell dest){
+        
+        boardpanel.startAnimation(src, src);
+
+    }
+    
+    public void setClientId(Integer clientid){
    
        this.clientid = clientid;
        model.setCleitnid(clientid);
    
-   }
+    }
    
-   public void loginMessageHandler(String outcome){
+    public void loginMessageHandler(String outcome){
    
        if(outcome.equals("success")){
        
@@ -248,10 +259,10 @@ public class Controller implements Runnable{
            view.getMessage_lbl().setText(" • Wrong name or password.");
 
        }
-   }
+    }
    
    
-   public void setGameList(List<String> games){
+    public void setGameList(List<String> games){
    
        gamelistview.getGameLoadList_cbox().removeAllItems();
        gamelistview.getGameJoinList_cbox().removeAllItems();
@@ -260,29 +271,28 @@ public class Controller implements Runnable{
                 gamelistview.getGameLoadList_cbox().addItem(s);
             else
                 gamelistview.getGameJoinList_cbox().addItem(s);
-       }
+        }
        
        gamelistview.revalidate();
        gamelistview.repaint();
-   }
+    }
    
-   public void joinGame(String s){
+    public void joinGame(String s){
    
        Integer gameid = Character.getNumericValue(s.charAt(0));
        model.joinGameMessage(gameid);
    
-   }
-   public void loadGame(String s){
+    }
+    public void loadGame(String s){
    
        Integer gameid = Character.getNumericValue(s.charAt(0));
        model.loadGameMessage(gameid);
    
-   }
-   public void startNewGame(){
+    }
+    public void startNewGame(){
    
        model.startNewGameMessage();
    
-   }
-   
+    }
    
 }

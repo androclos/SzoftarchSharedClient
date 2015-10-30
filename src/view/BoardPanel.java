@@ -19,12 +19,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Pifko
  */
-public class BoardPanel extends Panel{
+public class BoardPanel extends JPanel{
     
     private char letters[] = {'a','b','c','d','e','f','g','h'};
     String message = null;
@@ -41,6 +42,7 @@ public class BoardPanel extends Panel{
     
     public BoardPanel(ChessBoard board)
     {
+        
         this.board = board;
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         MediaTracker mediaTracker = new MediaTracker(this);

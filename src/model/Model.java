@@ -5,6 +5,7 @@
  */
 package model;
 
+import chess.Cell;
 import client.Message;
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -94,5 +95,17 @@ public class Model {
         } catch (IOException ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void moveMessage(Cell src, Cell dst){
+    
+        try {
+            Message m = new Message(clientid + ":move" + ":" + src.i + ":" + src.j + ":"+dst.i + ":" + dst.j);
+            listener.getOuts().writeObject(m);
+        } catch (IOException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    
     }
 }
