@@ -7,6 +7,7 @@ package view;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 
 /**
  *
@@ -45,6 +46,10 @@ public class GameListView extends javax.swing.JPanel {
         return refreshlist_btn;
     }
 
+    public JLabel getGamelistmessage_lbl() {
+        return gamelistmessage_lbl;
+    }
+
     
     
     /**
@@ -62,6 +67,7 @@ public class GameListView extends javax.swing.JPanel {
         loadgame_btn = new javax.swing.JButton();
         joingame_btn = new javax.swing.JButton();
         refreshlist_btn = new javax.swing.JButton();
+        gamelistmessage_lbl = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 51, 0), 4));
         setPreferredSize(new java.awt.Dimension(786, 423));
@@ -80,6 +86,8 @@ public class GameListView extends javax.swing.JPanel {
         joingame_btn.setActionCommand("");
 
         refreshlist_btn.setText("Refresh Game List");
+
+        gamelistmessage_lbl.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -104,13 +112,19 @@ public class GameListView extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
                         .addComponent(gameloadlist_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(89, 89, 89))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(356, 356, 356)
+                .addComponent(gamelistmessage_lbl)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(114, 114, 114)
+                        .addGap(31, 31, 31)
+                        .addComponent(gamelistmessage_lbl)
+                        .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(gameloadlist_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(gamejoinlist_cbox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -130,6 +144,7 @@ public class GameListView extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox gamejoinlist_cbox;
+    private javax.swing.JLabel gamelistmessage_lbl;
     private javax.swing.JComboBox gameloadlist_cbox;
     private javax.swing.JButton joingame_btn;
     private javax.swing.JButton loadgame_btn;

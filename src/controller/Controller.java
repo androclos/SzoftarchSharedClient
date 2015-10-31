@@ -12,6 +12,7 @@ import java.awt.Button;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -32,6 +33,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import model.ChessPiece;
 import view.BoardPanel;
 import view.ChessFrame;
@@ -43,26 +45,33 @@ import view.ChessFrame;
  */
 public class Controller implements Runnable{
     
+    public enum State {LOGIN, GAMELIST, GAME;}
+    
     LoginView view;
     ChessFrame frames;
     BoardPanel boardpanel;
+    JLabel gamemessage;
     ChessBoard board;
     GameListView gamelistview;
     Model model;
-    public  ArrayBlockingQueue<Message> messageque;
+    
+    ArrayBlockingQueue<Message> messageque;
     Integer clientid = -1;
     String color = null;
     
     Cell source;
     Cell destiantion;
     
+    State state;
+    
     public Controller() {
 
+        state = State.LOGIN;
         messageque = new ArrayBlockingQueue<Message>(100);
         view = new LoginView();
-        model = new Model(messageque);
+        //model = new Model(messageque);
         setLoginViewListeners();
-        
+        setBoardView(null);
         
         
         //setBoardView(processBoard(msgprocess("board:r00:n01:b02:q03:k04:b05:n06:r07:p10:p11:p12:p13:p14:p15:p16:p17:P60:P61:P62:P63:P64:P65:P66:P67:R70:N71:B72:Q73:K74:B75:N76:R77")));
@@ -71,6 +80,7 @@ public class Controller implements Runnable{
     
     public void setBoardView(List<ChessPiece> piecelist){
     
+        state = State.GAME;
         this.view.setVisible(false);
         
         if(piecelist != null){
@@ -82,13 +92,29 @@ public class Controller implements Runnable{
         this.frames = new ChessFrame();
         this.boardpanel = new BoardPanel(board);
         frames.getContentPane().add(boardpanel);
-        JLabel website = new JLabel();
-        frames.getContentPane().add(website);
-        frames.getContentPane().add(new JButton("yasd"));
+        
+        
+        JLabel websitelink = new JLabel();
+        gamemessage = new JLabel("_");
+        gamemessage.setAlignmentY(Component.CENTER_ALIGNMENT);
+        frames.getContentPane().add(gamemessage);
+        frames.getContentPane().add(websitelink);
+        JButton leavegame_btn = new JButton("Leave Game");
+        frames.getContentPane().add(leavegame_btn);
+        
+        
         frames.setSize(450,600);
         frames.setResizable(false);
         frames.setVisible(true);
         boardpanel.display();
+        
+        leavegame_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                
+                leavegame();
+                
+            }
+        });
         
         boardpanel.addMouseListener(new MouseAdapter()
         {
@@ -121,23 +147,28 @@ public class Controller implements Runnable{
                 "Are you sure to close this window?", "Really Closing?", 
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-                model.leaveGameMessage();
+                
+                    leavegame();
+                    destroyGameView();
+                    setGameListView();
+
+                    
             }
         }
         });
         
         
-        website.setText("<html> Website : <a href=\"\">"+"Link"+"</a></html>");
-        website.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        website.addMouseListener(new MouseAdapter() {
+        websitelink.setText("<html><a href=\"\">"+"Game Statistics"+"</a></html>");
+        websitelink.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        websitelink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                     try {
                             Desktop.getDesktop().browse(new URI("https://pifko-pc:8181/ServletTest/Statistics"));
                     } catch (IOException ex) {
-                            //It looks like there's a problem
+                        Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (URISyntaxException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -155,8 +186,7 @@ public class Controller implements Runnable{
                 
             }
         });
-    
-    
+
     }
     
     public void setGameListListeners(){
@@ -211,14 +241,10 @@ public class Controller implements Runnable{
 
             while(true){
                 Message newmsg = this.messageque.take();
-
                 List<String> list = msgprocess(newmsg.getMessage());
                 msghandler(list, newmsg);
             }
-            
-            
-            
-            
+  
         } catch (InterruptedException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -255,7 +281,8 @@ public class Controller implements Runnable{
                 break;
            }
             case "message":{
-               view.getMessage_lbl().setText(original.getMessage());
+               //view.getMessage_lbl().setText(original.getMessage());
+                setMessage(original.getMessage());
                break;
             }
             case "gamelist":{
@@ -280,11 +307,20 @@ public class Controller implements Runnable{
             }
             default: {
                break;
-            }
-           
-            
+            }  
             
         }
+    
+    }
+    
+    public void setMessage(String msg){
+    
+        if(state == State.LOGIN)
+            view.getMessage_lbl().setText(msg);
+        else if(state == State.GAMELIST)
+            gamelistview.getGamelistmessage_lbl().setText(msg);
+        else if(state == State.GAME)
+            gamemessage.setText(msg);
     
     }
     
@@ -305,10 +341,9 @@ public class Controller implements Runnable{
    
        if(outcome.equals("success")){
        
+           state = State.GAMELIST;
            model.gameListMessage();
-           gamelistview = new GameListView();
-           setGameListListeners();
-           view.changePanel(gamelistview);
+           setGameListView();
        
        }
        else{
@@ -367,4 +402,28 @@ public class Controller implements Runnable{
     
     }
     
+    public void leavegame(){
+    
+        model.leaveGameMessage();
+  
+    }
+  
+    public void setGameListView(){
+    
+        gamelistview = new GameListView();
+        setGameListListeners();
+        view.changePanel(gamelistview);
+    
+    }
+    
+    public void destroyGameView(){
+    
+        frames.setVisible(false);
+        frames.removeAll();
+        boardpanel.removeAll();
+        boardpanel = null;
+        gamemessage = null;
+        board = null;
+    
+    }
 }
