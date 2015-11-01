@@ -45,7 +45,7 @@ import view.ChessFrame;
  */
 public class Controller implements Runnable{
     
-    public enum State {LOGIN, GAMELIST, GAME;}
+    public enum State {LOGIN, GAMELIST, GAME, WAITING;}
     
     LoginView view;
     ChessFrame frames;
@@ -158,7 +158,6 @@ public class Controller implements Runnable{
                     
                     System.exit(-1);
 
-                    
             }
         }
         });
@@ -198,6 +197,15 @@ public class Controller implements Runnable{
     
     public void setGameListListeners(){
     
+        gamelistview.getLeavegame_btn().addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                
+
+                
+                
+            }
+        });
+        
         gamelistview.getJoingame_btn().addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 
