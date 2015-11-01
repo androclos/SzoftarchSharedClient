@@ -69,9 +69,9 @@ public class Controller implements Runnable{
         state = State.LOGIN;
         messageque = new ArrayBlockingQueue<Message>(100);
         view = new LoginView();
-        //model = new Model(messageque);
+        model = new Model(messageque);
         setLoginViewListeners();
-        setBoardView(null);
+        //setBoardView(null);
         
         
         //setBoardView(processBoard(msgprocess("board:r00:n01:b02:q03:k04:b05:n06:r07:p10:p11:p12:p13:p14:p15:p16:p17:P60:P61:P62:P63:P64:P65:P66:P67:R70:N71:B72:Q73:K74:B75:N76:R77")));
@@ -108,10 +108,14 @@ public class Controller implements Runnable{
         frames.setVisible(true);
         boardpanel.display();
         
+        frames.setTitle("Chess - Your color is: "+color);
+        
         leavegame_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 
                 leavegame();
+                destroyGameView();
+                setGameListView();
                 
             }
         });
@@ -149,13 +153,16 @@ public class Controller implements Runnable{
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
                 
                     leavegame();
-                    destroyGameView();
-                    setGameListView();
+                    //destroyGameView();
+                    //setGameListView();
+                    
+                    System.exit(-1);
 
                     
             }
         }
         });
+        
         
         
         websitelink.setText("<html><a href=\"\">"+"Game Statistics"+"</a></html>");
@@ -410,9 +417,12 @@ public class Controller implements Runnable{
   
     public void setGameListView(){
     
+        state = State.GAMELIST;
         gamelistview = new GameListView();
+        model.gameListMessage();
         setGameListListeners();
         view.changePanel(gamelistview);
+        view.setVisible(true);
     
     }
     
