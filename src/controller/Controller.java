@@ -63,6 +63,7 @@ public class Controller implements Runnable{
     Cell destiantion;
     
     State state;
+    String username = null;
     
     public Controller() {
 
@@ -108,7 +109,7 @@ public class Controller implements Runnable{
         frames.setVisible(true);
         boardpanel.display();
         
-        frames.setTitle("Chess - Your color is: "+color);
+        frames.setTitle("Chess - Your color is: "+color +" "+ username);
         
         leavegame_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -245,6 +246,8 @@ public class Controller implements Runnable{
         String name = view.getUsername_tf().getText();
         String pass = new String (view.getPassword_tf().getPassword());
         
+        username = name;
+        
         model.loginMessage(name, pass);
     
     }
@@ -364,6 +367,7 @@ public class Controller implements Runnable{
        else{
        
            view.getMessage_lbl().setText(" • Wrong name or password.");
+           username = null;
 
        }
     }
