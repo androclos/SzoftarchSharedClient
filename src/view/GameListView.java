@@ -26,7 +26,10 @@ public class GameListView extends javax.swing.JPanel {
         return leavegame_btn;
     }
 
-    
+    public JLabel getLogout_lbl() {
+        return logout_lbl;
+    }
+
     
     public JComboBox getGameLoadList_cbox() {
         return gameloadlist_cbox;
@@ -77,6 +80,7 @@ public class GameListView extends javax.swing.JPanel {
         loadgame_btn = new javax.swing.JButton();
         gameloadlist_cbox = new javax.swing.JComboBox();
         leavegame_btn = new javax.swing.JButton();
+        logout_lbl = new javax.swing.JLabel();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 51, 0), 4));
         setPreferredSize(new java.awt.Dimension(786, 423));
@@ -151,6 +155,9 @@ public class GameListView extends javax.swing.JPanel {
 
         leavegame_btn.setText("Leave Game");
 
+        logout_lbl.setText("<html><a href=\\\"\\\">Logout</a></html>");
+        logout_lbl.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,11 +182,17 @@ public class GameListView extends javax.swing.JPanel {
                 .addGap(356, 356, 356)
                 .addComponent(gamelistmessage_lbl)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logout_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
+                .addComponent(logout_lbl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
                 .addComponent(gamelistmessage_lbl)
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -204,6 +217,7 @@ public class GameListView extends javax.swing.JPanel {
     private javax.swing.JButton joingame_btn;
     private javax.swing.JButton leavegame_btn;
     private javax.swing.JButton loadgame_btn;
+    private javax.swing.JLabel logout_lbl;
     private javax.swing.JButton refreshlist_btn;
     private javax.swing.JButton startnewgame_btn;
     // End of variables declaration//GEN-END:variables

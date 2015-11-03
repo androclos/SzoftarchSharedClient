@@ -154,9 +154,6 @@ public class Controller implements Runnable{
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
                 
                     leavegame();
-                    //destroyGameView();
-                    //setGameListView();
-                    
                     System.exit(-1);
 
             }
@@ -198,12 +195,30 @@ public class Controller implements Runnable{
     
     public void setGameListListeners(){
     
+        gamelistview.getLogout_lbl().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                model.logoutMessage();
+                view.setVisible(false);
+                view.removeAll();
+                view = null;
+                view = new LoginView();
+                setLoginViewListeners();
+                username = null;
+                state = State.LOGIN;
+                
+            }
+        });
+        
+        
         gamelistview.getLeavegame_btn().addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                
-
-                
-                
+                                
+                if(state == state.WAITING)
+                    model.leaveGameMessage();
+                else
+                    setMessage("You are not in a game.");
             }
         });
         
@@ -299,7 +314,6 @@ public class Controller implements Runnable{
                 break;
            }
             case "message":{
-               //view.getMessage_lbl().setText(original.getMessage());
                 setMessage(original.getMessage());
                break;
             }
@@ -323,6 +337,10 @@ public class Controller implements Runnable{
                 setBoardView(null);
                 break;
             }
+            case "joined":{
+                state = State.WAITING;
+                break;
+            }
             default: {
                break;
             }  
@@ -335,7 +353,7 @@ public class Controller implements Runnable{
     
         if(state == State.LOGIN)
             view.getMessage_lbl().setText(msg);
-        else if(state == State.GAMELIST)
+        else if(state == State.GAMELIST || state == State.WAITING)
             gamelistview.getGamelistmessage_lbl().setText(msg);
         else if(state == State.GAME)
             gamemessage.setText(msg);
@@ -435,6 +453,7 @@ public class Controller implements Runnable{
         setGameListListeners();
         view.changePanel(gamelistview);
         view.setVisible(true);
+        view.setTitle("Chess - Logged in as: " + username);
     
     }
     

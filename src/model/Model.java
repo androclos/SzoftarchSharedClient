@@ -36,9 +36,6 @@ public class Model {
         this.clientid = cleitnid;
     }
     
-    
-    
-    
     public void loginMessage(String username, String password){
     
         try {
@@ -118,5 +115,16 @@ public class Model {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public void logoutMessage(){
+    
+        try {
+            Message m = new Message(clientid + ":logout");
+            listener.getOuts().writeObject(m);
+        } catch (IOException ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
     }
 }
