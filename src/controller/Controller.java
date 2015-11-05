@@ -64,6 +64,7 @@ public class Controller implements Runnable{
     
     State state;
     String username = null;
+    public static String statlink;
     
     public Controller() {
 
@@ -168,7 +169,7 @@ public class Controller implements Runnable{
             @Override
             public void mouseClicked(MouseEvent e) {
                     try {
-                            Desktop.getDesktop().browse(new URI("https://pifko-pc:8181/ServletTest/Statistics"));
+                            Desktop.getDesktop().browse(new URI(statlink));
                     } catch (IOException ex) {
                         Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (URISyntaxException ex) {

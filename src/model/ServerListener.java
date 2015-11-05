@@ -31,8 +31,12 @@ import java.util.concurrent.*;
 import javax.net.ssl.*;
 import com.sun.net.ssl.*;
 import com.sun.net.ssl.internal.ssl.Provider;
+import controller.Controller;
 import java.security.Security;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  *
@@ -45,23 +49,26 @@ public class ServerListener implements Runnable{
     ObjectInputStream ins;
     ObjectOutputStream outs;
     
-    public ServerListener(ArrayBlockingQueue<Message> que, final String host, final int port) {
+    public ServerListener(ArrayBlockingQueue<Message> que) {
         
         try{
             this.que = que;
 
+            
+            Map<String,String> clientinfo = getClientConfig();
+            
             Security.addProvider(new Provider());
 
             System.setProperty("javax.net.ssl.trustStoreType","JCEKS");
-            System.setProperty("javax.net.ssl.trustStore","C:/temp/keystore.ks");
+            System.setProperty("javax.net.ssl.trustStore",clientinfo.get("keystore"));
             System.setProperty("javax.net.ssl.trustStorePassword","password");
+            Controller.statlink = clientinfo.get("statlink");
 
             SSLSocketFactory sslsocketfactory = (SSLSocketFactory)SSLSocketFactory.getDefault();
-            s = (SSLSocket)sslsocketfactory.createSocket(host,port);
+            s = (SSLSocket)sslsocketfactory.createSocket(clientinfo.get("host"),Integer.valueOf(clientinfo.get("port")));
 
             if(s.isConnected())
              {
-                 System.out.println("1000");
                 outs = new ObjectOutputStream(this.s.getOutputStream());
                 ins = new ObjectInputStream(this.s.getInputStream());
                  
@@ -106,6 +113,22 @@ public class ServerListener implements Runnable{
     }
     
     
+    public static HashMap<String,String> getClientConfig() throws IOException{
+        
+        Properties prop = new Properties();
+	InputStream input = null;
+
+        input = new FileInputStream("Clientconfig.properties");
+        prop.load(input);
+
+
+        HashMap<String,String> properties = new HashMap<String, String>();
+        
+        for(Map.Entry<Object,Object> entry : prop.entrySet()){          
+           properties.put(String.valueOf(entry.getKey()), String.valueOf(entry.getValue()));      
+        }
     
+        return properties;
+    }
     
 }

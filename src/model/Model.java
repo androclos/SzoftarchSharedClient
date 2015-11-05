@@ -24,7 +24,7 @@ public class Model {
 
     public Model(ArrayBlockingQueue<Message> que) {
         this.que = que;
-        listener = new ServerListener(que, "localhost",2222);
+        listener = new ServerListener(que);
         new Thread(listener).start();
     }
 
