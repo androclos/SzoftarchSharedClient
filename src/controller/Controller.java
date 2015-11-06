@@ -409,13 +409,15 @@ public class Controller implements Runnable{
    
     public void joinGame(String s){
    
-       Integer gameid = Character.getNumericValue(s.charAt(0));
+       StringTokenizer st = new StringTokenizer(s,":"); //a:b:b:c uzenete felosztasa
+       Integer gameid = Integer.valueOf(st.nextToken());
        model.joinGameMessage(gameid);
    
     }
     public void loadGame(String s){
    
-       Integer gameid = Character.getNumericValue(s.charAt(0));
+       StringTokenizer st = new StringTokenizer(s,"-");
+       Integer gameid = Integer.valueOf(st.nextToken());
        model.loadGameMessage(gameid);
    
     }
