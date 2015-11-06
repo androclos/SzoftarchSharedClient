@@ -91,8 +91,13 @@ public class Controller implements Runnable{
         else
            this.board = new ChessBoard();
         
+        if(color.equals("black"))
+            board.transformBoard();
+        
         this.frames = new ChessFrame();
         this.boardpanel = new BoardPanel(board);
+        if(color.equals("black"))
+            boardpanel.setBlackBaord();
         frames.getContentPane().add(boardpanel);
         
         
@@ -135,7 +140,14 @@ public class Controller implements Runnable{
                     boardpanel.display();
                 }
                 else{  //masodik kattintas
-                   destiantion = c;  
+                   destiantion = c;
+                   
+                   if(color.equals("black")){
+                   
+                       source.i = Math.abs(source.i-7);
+                       destiantion.i = Math.abs(destiantion.i-7);
+                   
+                   }
                    model.moveMessage(source, destiantion);
                    boardpanel.selectedCell = destiantion = source = null;
 
@@ -362,6 +374,13 @@ public class Controller implements Runnable{
     }
     
     public void makeMove(Cell src, Cell dest){
+        
+        if(color.equals("black")){
+        
+            src.i = Math.abs(src.i-7);
+            dest.i = Math.abs(dest.i-7);
+        
+        }
         
         boardpanel.startAnimation(src, dest);
 

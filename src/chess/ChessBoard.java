@@ -6,6 +6,7 @@
 package chess;
 
 //import database.ChessPiece;
+import com.sun.beans.editors.ColorEditor;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -81,8 +82,23 @@ public class ChessBoard {
             chessboard[1][i] = new Pawn(false);
             chessboard[6][i] = new Pawn(true);
         }
+
     }
 
+    public void transformBoard(){ //ha fekee vagy
+    
+        Piece[][] test = new Piece[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if(chessboard[i][j]!=null)
+                    test[Math.abs(i-7)][j] = chessboard[i][j];
+            }
+        }
+        
+        chessboard = test;
+   
+    }
+    
     public Piece getPiece(Cell c) {
         return chessboard[c.i][c.j];
     }

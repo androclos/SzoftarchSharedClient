@@ -38,6 +38,7 @@ public class BoardPanel extends JPanel{
     public Cell animPieceCoord;
     Mover m = null;
     Image backBuffer = null;
+    public Integer iswhite = 1;
     
     
     public BoardPanel(ChessBoard board)
@@ -125,6 +126,11 @@ public class BoardPanel extends JPanel{
 	
     }
     
+    public void setBlackBaord(){
+    
+        this.iswhite = 0;
+    
+    }
     
     class Mover extends Thread
     {
@@ -214,8 +220,8 @@ public class BoardPanel extends JPanel{
 	   for(int i = 0; i < 8 ; i++)
 		for(int j = 0; j < 8 ; j++)
 		 {
-		  if( (i + j) % 2 == 1)
-           drawGraphics.setColor(new Color(0.6f,0.5f,0.3f));
+		  if( (i + j) % 2 == iswhite)
+                drawGraphics.setColor(new Color(0.6f,0.5f,0.3f));
 		  else
 		   drawGraphics.setColor(new Color(0.95f,0.85f,0.6f));
    
